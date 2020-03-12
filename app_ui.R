@@ -117,7 +117,7 @@ q3_tab <- tabPanel(
 )
 
 q4_tab <- tabPanel(
-  title = "Effect of birthrate on emission growth in later years",
+  title = "Comparing every country, how has the birth rate in a single year impacted their increase in CO2 emissions in succeeding years?",
   titlePanel("Effect of birthrate on emission growth in later years"),
   q4_layout
 )

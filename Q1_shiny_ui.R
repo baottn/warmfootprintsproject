@@ -9,7 +9,7 @@ features <- birth_rates$Entity
 radio_button_input <- radioButtons(
   inputId = "features",
   label = "Birth rate change",
-  choices = c("Countries that have birth rate increase", "Countries that have birth rate decrease or no change"))
+  choices = c("All countries", "Countries that have birth rate increase", "Countries that have birth rate decrease or no change"))
 
 year_input <- sliderInput(
   inputId = "year_choice" ,
@@ -39,7 +39,7 @@ q1_layout <- sidebarLayout(
 
 birth_rate_in_different_countries <- tabPanel(
   title = "Birth Rate Changes" ,
-  titlePanel("Birth Rate In Different Countries"),
+  titlePanel("Birth Rate Changes In Different Countries"),
   q1_layout,
   p(textOutput(outputId = "mean"))
 )
