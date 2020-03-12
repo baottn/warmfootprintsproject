@@ -41,7 +41,11 @@ my_ui <- fluidPage(
       span(textOutput("error"), style="color:red"),
       textOutput("correlation")
     )
-  )
+  ),
+  p("This graph allows you to cross-sectionally analyis how birth rate in a single year is correlated with emission growths in any suceeding year.
+    By examining every country, we get the largest sample size we can. This allows us to answer the question of if, in general, 
+    having more children correlates with higher growth in CO2 emissions. Generally, you can find a very strong correlation between higher birth rate 
+    and higher growth in CO2 emissions in subsequent years. Showing that the two are strongly linked (by social science standards")
 )
 
 my_server <- function(input, output){
