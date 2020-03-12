@@ -40,7 +40,8 @@ q1_layout <- sidebarLayout(
 birth_rate_in_different_countries <- tabPanel(
   title = "Birth Rate Changes" ,
   titlePanel("Birth Rate In Different Countries"),
-  q1_layout
+  q1_layout,
+  p(textOutput(outputId = "mean"))
 )
 
 my_ui <- navbarPage(
