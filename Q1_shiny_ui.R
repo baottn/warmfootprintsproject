@@ -9,7 +9,7 @@ features <- birth_rates$Entity
 radio_button_input <- radioButtons(
   inputId = "features",
   label = "Birth rate change",
-  choices = c("Countries that have birth rate increase", "Countries that have birth rate decrease or no change"))
+  choices = c("All countries", "Countries that have birth rate increase", "Countries that have birth rate decrease or no change"))
 
 year_input <- sliderInput(
   inputId = "year_choice" ,
