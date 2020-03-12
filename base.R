@@ -3,7 +3,7 @@ library(tidyr)
 library(ggplot2)
 options(scipen = 999)
 
-birth_rates <- read.csv("children-born-per-woman.csv", stringsAsFactors = FALSE)
+birth_rates <- read.csv("data/children-born-per-woman.csv", stringsAsFactors = FALSE)
 
 # Rename column for easy reading
 names(birth_rates)[4] <- "birth_rate"
@@ -27,7 +27,7 @@ birth_rates_wide <- filter(birth_rates_wide, nchar(Code) == 3)
 birth_rates <- gather(birth_rates_wide, value = birth_rate, key = Year, -Entity, -Code)
 birth_rates <- mutate(birth_rates, Year = as.integer(Year))
 
-emissions <- read.csv("annual-co2-emissions-per-country.csv", stringsAsFactors = FALSE)
+emissions <- read.csv("data/annual-co2-emissions-per-country.csv", stringsAsFactors = FALSE)
 
 # Rename column for easy reading
 names(emissions)[4] <- "CO2_emissions"
