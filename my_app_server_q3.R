@@ -46,5 +46,9 @@ my_server <- function(input_list, output_list) {
       theme(axis.text.x = element_text(size = 5,angle = 90))
     return(the_plot)
   })
+  
+  output_list$q3_analysis <- renderText({
+    
+  })
 }
 

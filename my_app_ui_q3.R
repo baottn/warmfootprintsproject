@@ -32,7 +32,8 @@ q3_layout <- sidebarLayout(
 custom_country_and_year <- tabPanel(
   title = "Discover how birth rate affect CO2 emission of a country",
   titlePanel("Birth rate vs CO2 emission"),
-  q3_layout
+  q3_layout,
+  p(textOutput(outputId = "q3_analysis"))
 )
 
 my_ui <- navbarPage(
