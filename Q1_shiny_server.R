@@ -32,7 +32,7 @@ my_server <- function(input_list, output_list){
   output_list$mean <- renderText({
     birth_stats <- birth_area(input_list$year_choice, input_list$features)
     
-    return(paste("The mean birthrate change for years", input_list$year_choice[1], "and", input_list$year_choice[2], "is", mean(birth_stats$birth_change), ". This data signifies the different overall means of the fertility rate of different countries as well as how it compares to the individual countries. This also shows how most of the birth rates are negative, which supports the fact that global warming affects birth rates."))
+    return(paste("The mean birthrate change for years", input_list$year_choice[1], "and", input_list$year_choice[2], "is", mean(birth_stats$birth_change), ". This data signifies the different overall means of the fertility rate of different countries as well as how it compares to the individual countries. This also shows how most of the birth rates are negative, which supports the fact that global warming affects birth rates. While the reason for the change may not be solely due to global warming, the amount of countries with negative birth rates shows how there is a decrease in childbirth that matches with the average increase in CO2 emissions worldwide. The highest decrease in average birth rate is Yemen with -3.92, which could be explained due to the civil unrest in the country. On the other hand, the highest increase in average birth rate is Russia with 0.43, which can be attributed to many different factors, including gender roles and government policies. However, with the highest increase in average birth rate being 0.43, the overall change in birth rate is skewed more negative."))
   })
 }  
 
