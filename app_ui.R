@@ -10,7 +10,7 @@ features <- birth_rates$Entity
 radio_button_input <- radioButtons(
   inputId = "features",
   label = "Birth rate change",
-  choices = c("Countries that have birth rate increase", "Countries that have birth rate decrease or no change"))
+  choices = c("All countries", "Countries that have birth rate increase", "Countries that have birth rate decrease or no change"))
 
 year_input <- sliderInput(
   inputId = "year_choice" ,
@@ -97,6 +97,37 @@ q4_layout <- sidebarLayout(
   main_content_q4
 )
   
+#Introduction tab
+introduction <- tabPanel(
+  title = "Introduction",
+  h1("Welcome to Warm Babies Project"),
+  p(
+    "Our overall question is asking whether",
+    em("birth rate across the world influences climate change."), 
+    "The data sets were found through", 
+    a(href = "https://ourworldindata.org/", "Our World in Data"),
+    "created by UN Population Division and Global Carbon Project and demonstrate the potential worldwide correlation between birthrate and CO2 emissions. The birth rate is represented with the dataset of ",
+    a(href = "https://ourworldindata.org/fertility-rate?fbclid=IwAR26nSY7EiW3eZnHdWdAfFRobNkDWA6K4Kc6p54atM6jrbt_7xJDD_MyOho", "children born per woman"), 
+    "and climate change is represented through",
+    a(href = "https://ourworldindata.org/co2-and-other-greenhouse-gas-emissions?fbclid=IwAR395Avylw1hiC9rkHdEqFDiHKcdSGQSqZDoArTAsaEsC1E4QAK5DCp1AaQ#annual-co2-emissions", "annual CO2 emissions per country."), 
+    "The children born per woman data set finds the average fertility per woman in different countries across many years. The annual CO2 emissions per country data set locates the amount of CO2 different countries use, reflecting its effect on global warming."
+  ),
+  p(
+    "The data sets we will be using are of the average birth rate of countries and the annual CO2 gas emission of countries. Both data sets span around a century, but have been parsed to include more recent years. The source of both data sets is published by the University of Oxford with a large amount of data backing up the research methods and original sources."
+  ),
+  p(
+    strong("For further details on our project report and data analysis, follow the link "),
+    a(href = "https://info201a-wi20.github.io/project-report-n-liang/", "here.")
+  ),
+  p(
+    "As concerns surrounding climate change have increased in recent years, the idea of reducing the global birth rate has become a growing suggestion. Many young individuals have made decisions to not procreate or create families due to the concern of overpopulation and the depletion of environmental resources. As a group, we aimed to use data sets of global fertility rates and global rate of CO2 emissions to find correlation between the changes of the two within the last few decades or so. By drawing conclusions with analysis of these data sets, we hope to draw attention to this idea as a",
+    em("potential solution to the global concern of climate change.")
+  ),
+  p(
+    "This app was created collaboratively by Victoria Pao, Bao Nguyen, Ted Wang, and Nick Liang."
+  )
+)
+
 #All questions tabs
 q1_tab <- tabPanel(
   title = "Birthrate Changes around the world" ,
@@ -131,6 +162,7 @@ q4_tab <- tabPanel(
 
 my_ui <- navbarPage(
   title = "Warm Babies",
+  introduction,
   q1_tab,
   q2_tab,
   q3_tab,

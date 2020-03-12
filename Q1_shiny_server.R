@@ -12,7 +12,7 @@ birth_area <- function(selected_range, features){
     birth_rates_wide <- filter(birth_rates_wide, birth_change <= 0)
   } else if (features == "Countries that have birth rate increase"){
     birth_rates_wide <- filter(birth_rates_wide, birth_change > 0)
-  }
+  } 
   return(birth_rates_wide)
 }
 
