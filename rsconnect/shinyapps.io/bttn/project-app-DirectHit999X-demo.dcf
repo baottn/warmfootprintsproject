@@ -5,8 +5,8 @@ account: bttn
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1931763
-bundleId: 2870162
+bundleId: 2874235
 url: https://bttn.shinyapps.io/project-app-DirectHit999X-demo/
-when: 1583906012.50154
+when: 1583999283.4723
 asMultiple: FALSE
 asStatic: FALSE

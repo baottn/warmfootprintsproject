@@ -131,28 +131,28 @@ introduction <- tabPanel(
 #All questions tabs
 q1_tab <- tabPanel(
   title = "Birthrate Changes around the world" ,
-  titlePanel("Birthrate changes around the world"),
+  titlePanel("How has the birth rate changed between 1995 and 2019 across the world?"),
   q1_layout,
   p(textOutput(outputId = "q1_analysis"))
 )
 
 q2_tab <- tabPanel(
   title = "CO2 emission around the world",
-  titlePanel("Percentage change in emission"),
+  titlePanel("How has emissions changed between 1995 and 2019 across the world?"),
   q2_layout,
   p(textOutput(outputId = "q2_analysis"))
 )
 
 q3_tab <- tabPanel(
-  title = "Discover how birth rate affect CO2 emission of a country",
-  titlePanel("Birth rate vs CO2 emission"),
+  title = "Birth rate vs CO2 emission",
+  titlePanel("Comparing a single country across 50 years in time span, how has the change in birth rate impacted emission rate growth?"),
   q3_layout,
   p(textOutput(outputId = "q3_analysis"))
 )
 
 q4_tab <- tabPanel(
-  title = "Comparing every country, how has the birth rate in a single year impacted their increase in CO2 emissions in succeeding years?",
-  titlePanel("Effect of birthrate on emission growth in later years"),
+  title = "Effect of birthrate on emission growth in later years",
+  titlePanel("Comparing every country, how has the birth rate in a single year impacted their increase in CO2 emissions in succeeding years?"),
   q4_layout,
   p("This graph allows you to cross-sectionally analyis how birth rate in a single year is correlated with emission growths in any suceeding year.
     By examining every country, we get the largest sample size we can. This allows us to answer the question of if, in general, 
