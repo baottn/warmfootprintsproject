@@ -35,8 +35,7 @@ main_content_q1 <- mainPanel(
 q1_layout <- sidebarLayout(
   sidebar_content_q1,
   main_content_q1,
-  position = "right",
-  p(textOutput(outputId = "q1_analysis"))
+  position = "right"
 )
 
 #Question 2 layout
@@ -50,7 +49,6 @@ main_content_q2 <- mainPanel(
 q2_layout <- sidebarLayout(
   sidebar_content_q2,
   main_content_q2,
-  textOutput("q2_analysis")
 )
 
 #Question 3 layout
@@ -79,8 +77,7 @@ sidebar_content_q3 <- sidebarPanel(
 q3_layout <- sidebarLayout(
   sidebar_content_q3,
   main_content_q3,
-  position = "right",
-  p(textOutput(outputId = "q3_analysis"))
+  position = "right"
 )
 
 #Question 4 layout
@@ -104,19 +101,22 @@ q4_layout <- sidebarLayout(
 q1_tab <- tabPanel(
   title = "Birthrate Changes around the world" ,
   titlePanel("Birthrate changes around the world"),
-  q1_layout
+  q1_layout,
+  p(textOutput(outputId = "q1_analysis"))
 )
 
 q2_tab <- tabPanel(
   title = "CO2 emission around the world",
   titlePanel("Percentage change in emission"),
-  q2_layout
+  q2_layout,
+  p(textOutput(outputId = "q2_analysis"))
 )
 
 q3_tab <- tabPanel(
   title = "Discover how birth rate affect CO2 emission of a country",
   titlePanel("Birth rate vs CO2 emission"),
-  q3_layout
+  q3_layout,
+  p(textOutput(outputId = "q3_analysis"))
 )
 
 q4_tab <- tabPanel(

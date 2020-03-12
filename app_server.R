@@ -3,8 +3,6 @@ library("ggplot2")
 library("dplyr")
 source("base.R")
 source("map.R")
-source("Q1.R")
-
 
 my_server <- function(input_list, output_list){
   #q1 
