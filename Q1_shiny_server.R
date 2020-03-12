@@ -1,7 +1,6 @@
 library("shiny")
 library("ggplot2")
 library("dplyr")
-source("Q1.R")
 source("base.R")
 source("map.R")
 
@@ -11,7 +10,7 @@ birth_area <- function(selected_range, features){
   names(birth_rates_wide)[2] <- "iso3c"
   if(features == "Countries that have birth rate decrease or no change") {
     birth_rates_wide <- filter(birth_rates_wide, birth_change <= 0)
-  } else {
+  } else if (features == "Countries that have birth rate increase"){
     birth_rates_wide <- filter(birth_rates_wide, birth_change > 0)
   }
   return(birth_rates_wide)
@@ -19,8 +18,7 @@ birth_area <- function(selected_range, features){
 
 my_server <- function(input_list, output_list){
   output_list$my_plot <- renderPlot({
-    new_map_data <- mutate(map_data("world"), iso3c = iso.alpha(region, n = 3))
-    joined_map <- left_join(new_map_data, birth_area(input_list$year_choice, input_list$features), by = "iso3c", na.rm = TRUE)
+    joined_map <- left_join(world_map, birth_area(input_list$year_choice, input_list$features), by = "iso3c", na.rm = TRUE)
     
     #plot
     the_plot <- ggplot(data = joined_map) +
