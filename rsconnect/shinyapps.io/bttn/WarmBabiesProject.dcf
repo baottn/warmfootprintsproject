@@ -1,0 +1,13 @@
+name: WarmBabiesProject
+title: WarmBabiesProject
+username:
+account: bttn
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1938701
+bundleId: 2874242
+url: https://bttn.shinyapps.io/WarmBabiesProject/
+when: 1583999488.19779
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: my_app_Q3.R|my_app_server_q3.R|my_app_ui_q3.R|Q1_shiny.R|Q1_shiny_server.R|Q1_shiny_ui.R|Q2_shiny.R|Q4_shiny.R
