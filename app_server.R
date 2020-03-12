@@ -7,29 +7,34 @@ source("Q1.R")
 
 
 my_server <- function(input_list, output_list){
-  
   #q1 
-  output_list$q1_plot <- renderPlot({
-    selected_range <- input_list$year_choice
+  birth_area <- function(selected_range, features){
     #data wrangling
     birth_rates_wide$birth_change <- birth_rates_wide[[toString(selected_range[2])]] - birth_rates_wide[[toString(selected_range[1])]]
     names(birth_rates_wide)[2] <- "iso3c"
-    new_map_data <- mutate(map_data("world"), iso3c = iso.alpha(region, n = 3))
-    if(input_list$features == "Countries that have birth rate decrease or no change") {
+    if(features == "Countries that have birth rate decrease or no change") {
       birth_rates_wide <- filter(birth_rates_wide, birth_change <= 0)
-    } else {
+    } else if (features == "Countries that have birth rate increase"){
       birth_rates_wide <- filter(birth_rates_wide, birth_change > 0)
     }
-    joined_map <- left_join(new_map_data, birth_rates_wide, by = "iso3c", na.rm = TRUE)
+    return(birth_rates_wide)
+  }
+
+  output_list$q1_plot <- renderPlot({
+    joined_map <- left_join(world_map, birth_area(input_list$year_choice, input_list$features), by = "iso3c", na.rm = TRUE)
     
     #plot
     the_plot <- ggplot(data = joined_map) +
       geom_polygon(aes(x = long, y = lat, group = group, fill = birth_change)) +
       scale_fill_distiller(palette = "RdYlGn", direction = 1) + 
-      labs(title = paste0("Change in Birth Rate (", selected_range[1],"-" , selected_range[2], ")"), fill = "Average Birth Change Per Woman") + 
+      labs(title = paste0("Change in Birth Rate (", input_list$year_choice[1],"-" , input_list$year_choice[2], ")"), fill = "Average Birth Change Per Woman") + 
       coord_quickmap() +
       theme_void()
     return(the_plot)
+  })
+  output_list$q1_analysis <- renderText({
+    birth_stats <- birth_area(input_list$year_choice, input_list$features)
+    return(paste("The mean birthrate change for years", input_list$year_choice[1], "and", input_list$year_choice[2], "is", mean(birth_stats$birth_change), ". This data signifies the different overall means of the fertility rate of different countries as well as how it compares to the individual countries. This also shows how most of the birth rates are negative, which supports the fact that global warming affects birth rates. While the reason for the change may not be solely due to global warming, the amount of countries with negative birth rates shows how there is a decrease in childbirth that matches with the average increase in CO2 emissions worldwide. The highest decrease in average birth rate is Yemen with -3.92, which could be explained due to the civil unrest in the country. On the other hand, the highest increase in average birth rate is Russia with 0.43, which can be attributed to many different factors, including gender roles and government policies. However, with the highest increase in average birth rate being 0.43, the overall change in birth rate is skewed more negative."))
   })
   
   #q2
@@ -52,27 +57,38 @@ my_server <- function(input_list, output_list){
     return(emissions_change_plot)
   })
   
+  output_list$q2_analysis <- renderText({
+    return(paste("As seen through the map data, an overall increase in CO2 can be observed as countries become more developed and populated over time. While this increase in emissions may not be solely reliant on the overall increase in our world's population, the overall world CO2 increase is a direct cause of countries growing over the range of years. However, many countries have also made drastic decreases in their CO2 emissions. For example, countries who were likely developed prior to 1997 such as Denmark, Malta, and Ukraine were able to decrease their CO2 emissions between 70 to 90%. The drastic increase in CO2 emission in countries such as China may also be attributed to the industrial and population growth of such countries. Looking at the minimum and maximum percentage changes, the difference is striking. Some countries have been capable of reduce CO2 emissions by nearly 90%, whereas some have increased over the twenty year period by the same percentage. Overall, we have witnessed a dramatic increase of over 30% in tons of CO2 emissions globally."))
+  })
+  
   #q3 
-  output_list$q3_plot <- renderPlot({
-    country_name <- input_list$country_name
-    year_range <- input_list$year_range
-    #data wrangling
+  #data wrangling
+  emission_data <- function (country_name, year_range) {
     emissions_over_time <- emissions %>% 
       filter(Entity == country_name, Year <= year_range[2] & Year >= year_range[1] - 1) %>% 
       mutate(change_between_years = CO2_emissions - lag(CO2_emissions)) %>% 
       mutate(CO2_emissions_change_between_years = change_between_years / lag(CO2_emissions)) %>%  
       filter(Year > year_range[1] - 1) %>% 
       select(Year, CO2_emissions, change_between_years, CO2_emissions_change_between_years)
-    
+    return(emissions_over_time)
+  }
+  
+  birthrate_data <- function (country_name, year_range) {
     birthrates_over_time <- birth_rates %>% 
       filter(Entity == country_name, Year <= year_range[2] & Year >= year_range[1] - 1) %>% 
       mutate(change_between_years = (birth_rate - lag(birth_rate))) %>% 
       mutate(birthrates_change_between_years = change_between_years / lag(birth_rate)) %>% 
       filter(Year > year_range[1] - 1)
+    return(birthrates_over_time)
+  }
+  
+  output_list$q3_plot <- renderPlot({
+    country_name <- input_list$country_name
+    year_range <- input_list$year_range
     
     # combine birthrate and emissions data together
-    birthrate_emission_changes_over_time <- birthrates_over_time %>% 
-      left_join(emissions_over_time, by = "Year") %>% 
+    birthrate_emission_changes_over_time <- birthrate_data(country_name, year_range) %>% 
+      left_join(emission_data(country_name, year_range), by = "Year") %>% 
       select(Year, birthrates_change_between_years, CO2_emissions_change_between_years)
     
     birthrate_emission_changes_over_time_gathered <- birthrate_emission_changes_over_time %>% 
@@ -91,9 +107,34 @@ my_server <- function(input_list, output_list){
         title = paste("Changes in birth rate and CO2 emission rate of", country_name ,"from", year_range[1], "to", year_range[2]),
         y = "Percent change(%) per year",
         color = "Type"
-      ) +
-      theme(axis.text.x = element_text(size = 5,angle = 90))
+      )
     return(the_plot)
+  })
+  
+  output_list$q3_analysis <- renderText({
+    country_name <- input_list$country_name
+    year_range <- input_list$year_range
+    
+    mean_birthrate_change <- mean(birthrate_data(country_name, year_range)$birthrates_change_between_years, na.rm = TRUE)
+    mean_emission_change <- mean(emission_data(country_name, year_range)$CO2_emissions_change_between_years, na.rm = TRUE)
+    birthrate_change_percentage <- paste0(round(mean_birthrate_change * 100, digits = 2), "%")
+    emission_change_percentage <- paste0(round(mean_emission_change * 100, digits = 2), "%")
+    absolute_birthrate_change_percentage <- paste0(round(abs(mean_birthrate_change) * 100, digits = 2), "%")
+    absolute_emission_change_percentage <- paste0(round(abs(mean_emission_change) * 100, digits = 2), "%")
+    
+    if(mean_birthrate_change < 0 & mean_emission_change > 0) {
+      conclusion <- paste("The birthrate of", country_name, "is inversely correlated with its CO2 emission in this period.", "The birthrate of", country_name, "decrease by", absolute_birthrate_change_percentage, "while its CO2 emission increase by", emission_change_percentage)
+    } else if (mean_birthrate_change > 0 & mean_emission_change < 0) {
+      conclusion <-  paste("The birthrate of", country_name, "is inversely correlated with its CO2 emission in this period.", "The birthrate of", country_name, "increase by", birthrate_change_percentage, "while its CO2 emission decrease by", absolute_emission_change_percentage)
+    } else if(mean_birthrate_change == 0 | mean_emission_change == 0) {
+      conclusion <- paste("The birth rate and CO2 emission of", country_name, "are not correlated with each other because one of them has not changed in this period")
+    } else if(mean_birthrate_change > 0 & mean_emission_change > 0) {
+      conclusion <-  paste("The birthrate of", country_name, "is positive correlated with its CO2 emission in this period.", "The birthrate of", country_name, "increase by", birthrate_change_percentage, "and its CO2 emission alse increase by", emission_change_percentage)
+    } else {
+      conclusion <-  paste("The birthrate of", country_name, "is positive correlated with its CO2 emission in this period.", "The birthrate of", country_name, "decrease by", absolute_birthrate_change_percentage, "and its CO2 emission alse decrease by", absolute_emission_change_percentage)
+    }
+    
+    return(paste("In", country_name, "from", year_range[1], "to", year_range[2], ", the birth rate change is", birthrate_change_percentage, "on average and the CO2 emission change is", emission_change_percentage, "on average.", conclusion))
   })
   
   #q4 

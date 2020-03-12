@@ -49,8 +49,7 @@ my_server <- function(input_list, output_list) {
         title = paste("Changes in birth rate and CO2 emission rate of", country_name ,"from", year_range[1], "to", year_range[2]),
         y = "Percent change(%) per year",
         color = "Type"
-      ) +
-      theme(axis.text.x = element_text(size = 5,angle = 90))
+      )
     return(the_plot)
   })
   

@@ -35,7 +35,8 @@ main_content_q1 <- mainPanel(
 q1_layout <- sidebarLayout(
   sidebar_content_q1,
   main_content_q1,
-  position = "right"
+  position = "right",
+  p(textOutput(outputId = "q1_analysis"))
 )
 
 #Question 2 layout
@@ -48,7 +49,8 @@ main_content_q2 <- mainPanel(
 )
 q2_layout <- sidebarLayout(
   sidebar_content_q2,
-  main_content_q2
+  main_content_q2,
+  textOutput("q2_analysis")
 )
 
 #Question 3 layout
@@ -77,7 +79,8 @@ sidebar_content_q3 <- sidebarPanel(
 q3_layout <- sidebarLayout(
   sidebar_content_q3,
   main_content_q3,
-  position = "right"
+  position = "right",
+  p(textOutput(outputId = "q3_analysis"))
 )
 
 #Question 4 layout
@@ -119,7 +122,11 @@ q3_tab <- tabPanel(
 q4_tab <- tabPanel(
   title = "Comparing every country, how has the birth rate in a single year impacted their increase in CO2 emissions in succeeding years?",
   titlePanel("Effect of birthrate on emission growth in later years"),
-  q4_layout
+  q4_layout,
+  p("This graph allows you to cross-sectionally analyis how birth rate in a single year is correlated with emission growths in any suceeding year.
+    By examining every country, we get the largest sample size we can. This allows us to answer the question of if, in general, 
+    having more children correlates with higher growth in CO2 emissions. Generally, you can find a very strong correlation between higher birth rate 
+    and higher growth in CO2 emissions in subsequent years. Showing that the two are strongly linked (by social science standards")
 )
 
 my_ui <- navbarPage(
