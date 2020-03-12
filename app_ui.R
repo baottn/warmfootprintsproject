@@ -1,4 +1,5 @@
 library("shiny")
+source("base.R")
 
 #Question 1 layout
 birth_rates <- birth_rates %>% 
